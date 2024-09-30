@@ -1,0 +1,10 @@
+.term-container {
+  display: flex;
+  margin: 10px;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.term-choice {
+  padding: 10px;
+}

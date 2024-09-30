@@ -1,14 +1,16 @@
 import './CourseList.css';
 
-const CourseList = ({ courses }) => {
+const CourseList = ({ courses, term }) => {
   return (
-    <div className="container">
-      {Object.entries(courses).map(([code, detail]) =>
-        <div className="card" key={code}>
-          <h3 className="code">{detail.term} CS {detail.number}</h3>
-          <div className="title">{detail.title}</div>
-          <hr className="divider"/>
-          <div className="time">{detail.meets}</div>
+    <div className="cl-container">
+      {Object.entries(courses).filter(
+        ([code, detail]) => !term || detail.term === term
+      ).map(([code, detail]) =>
+        <div className="cl-card" key={code}>
+          <h3 className="cl-code">{detail.term} CS {detail.number}</h3>
+          <div className="cl-title">{detail.title}</div>
+          <hr className="cl-divider"/>
+          <div className="cl-time">{detail.meets}</div>
         </div>
       )}
     </div>

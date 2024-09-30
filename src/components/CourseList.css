@@ -1,4 +1,4 @@
-.container {
+.cl-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -8,7 +8,7 @@
   padding: 0 10px;
 }
 
-.card {
+.cl-card {
   width: 240px;
   border: 2px solid #E6E6E6;
   border-radius: 8px;
@@ -17,15 +17,15 @@
   flex-direction: column;
 }
 
-.code {
+.cl-code {
   margin-top: 0;
 }
 
-.title {
+.cl-title {
   height: -webkit-fill-available;
 }
 
-.divider {
+.cl-divider {
   width: 100%;
   margin-top: 20px;
   border: 1px solid #E6E6E6;
