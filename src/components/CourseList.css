@@ -16,6 +16,9 @@
   display: flex;
   flex-direction: column;
 }
+.cl-card.selected {
+  background-color: #d9ead3;
+}
 
 .cl-code {
   margin-top: 0;
