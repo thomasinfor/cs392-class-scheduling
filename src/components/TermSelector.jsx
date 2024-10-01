@@ -2,7 +2,7 @@ import './TermSelector.css';
 
 const TermSelector = ({ term, setTerm }) => {
   return (
-    <div className="term-container">
+    <>
       {["Fall", "Winter", "Spring"].map(e =>
         <div key={e} onClick={() => setTerm(e)} className="term-choice">
           <input
@@ -14,7 +14,7 @@ const TermSelector = ({ term, setTerm }) => {
           <label> {e}</label>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
