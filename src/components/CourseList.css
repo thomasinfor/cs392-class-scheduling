@@ -19,6 +19,9 @@
 .cl-card.selected {
   background-color: #d9ead3;
 }
+.cl-card.disabled {
+  opacity: 0.3;
+}
 
 .cl-code {
   margin-top: 0;
