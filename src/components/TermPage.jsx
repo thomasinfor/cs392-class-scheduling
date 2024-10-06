@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import CourseList from './CourseList';
 import TermSelector from './TermSelector';
 import './TermPage.css';
-import { useJsonQuery } from '../utilities/fetch';
 import { useDbData } from '../utilities/firebase';
 
 const TermPage = () => {

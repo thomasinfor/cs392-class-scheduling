@@ -1,4 +1,3 @@
-import { useJsonQuery } from '../utilities/fetch';
 import { useDbData } from '../utilities/firebase';
 import './Banner.css';
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref, update } from 'firebase/database';
+import { getDatabase, onValue, ref, update, get } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCaj-Y6Zscgs0DVZ7RSSZxY_b3oitQrOv8",
@@ -17,19 +17,27 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const database = getDatabase(firebase);
 
-export const useDbData = (path) => {
+export const useDbData = (path, { sync = true } = {}) => {
   const [data, setData] = useState();
   const [error, setError] = useState(null);
 
-  useEffect(() => (
-    onValue(ref(database, "/class-scheduling" + path), (snapshot) => {
-     setData( snapshot.val() );
-    }, (error) => {
-      setError(error);
-    })
-  ), [ path ]);
+  useEffect(() => {
+    if (sync) {
+      return onValue(ref(database, "/class-scheduling" + path), (snapshot) => {
+        setData(snapshot.val());
+      }, (error) => {
+        setError(error);
+      });
+    } else {
+      get(ref(database, "/class-scheduling" + path)).then((snapshot) => {
+        setData(snapshot.val());
+      }).catch((error) => {
+        setError(error);
+      });
+    }
+  }, [path]);
 
-  return [ data, error ];
+  return [data, error];
 };
 
 const makeResult = (error) => {

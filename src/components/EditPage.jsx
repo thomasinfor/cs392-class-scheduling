@@ -1,13 +1,13 @@
 import './EditPage.css';
-import { useJsonQuery } from '../utilities/fetch';
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { validMeet } from '../utilities/schedule';
-import { useDbData } from '../utilities/firebase';
+import { useDbData, useDbUpdate } from '../utilities/firebase';
 
 const EditPage = () => {
   const { code } = useParams();
-  const [course, error] = useDbData(`/courses/${code}`);
+  const [course, error] = useDbData(`/courses/${code}`, { sync: false });
+  const [update, result] = useDbUpdate(`/courses/${code}`);
   const [title, setTitle] = useState("");
   const [meets, setMeets] = useState("");
   const titleError = title.length < 2;
@@ -19,11 +19,27 @@ const EditPage = () => {
       setMeets(course.meets);
     }
   }, [course]);
+  useEffect(() => {
+    if (result?.error) {
+      window.alert(result.message);
+    } else {
+      if (result?.timestamp) {
+        window.alert(result.message);
+        window.location.reload();
+      }
+    }
+  }, [result]);
 
   if (error || course === null) return "Data unavailble";
   if (!course) return "Loading...";
   return (
-    <form className="edit-container">
+    <form className="edit-container" onSubmit={evt => {
+      evt.preventDefault();
+      update({
+        ...course,
+        title, meets
+      });
+    }}>
       <label className="edit-label">
         Title
         {titleError && <span className="edit-errormsg">Must be at least two characters</span>}
@@ -45,7 +61,7 @@ const EditPage = () => {
       <div>
         <Link to="/"><button>Cancel</button></Link>
         &nbsp;&nbsp;&nbsp;
-        <input type="submit"/>
+        <input type="submit" disabled={titleError || meetsError}/>
       </div>
     </form>
   );
