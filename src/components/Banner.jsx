@@ -1,15 +1,11 @@
 import { useJsonQuery } from '../utilities/fetch';
+import { useDbData } from '../utilities/firebase';
 import './Banner.css';
 
 const Banner = () => {
-  const {
-    data: schedule,
-    isLoading,
-  } = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
+  const [title, error] = useDbData("/title");
 
-  if (isLoading) return "";
-  if (!schedule) return "";
-  return <h1 className="banner">{schedule.title}</h1>;
+  return <h1 className="banner">{title}</h1>;
 }
 
 export default Banner;

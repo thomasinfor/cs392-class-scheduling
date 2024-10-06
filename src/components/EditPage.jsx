@@ -3,29 +3,25 @@ import { useJsonQuery } from '../utilities/fetch';
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { validMeet } from '../utilities/schedule';
+import { useDbData } from '../utilities/firebase';
 
 const EditPage = () => {
-  const {
-    data: schedule,
-    isLoading,
-  } = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
-  const courses = schedule?.courses;
   const { code } = useParams();
+  const [course, error] = useDbData(`/courses/${code}`);
   const [title, setTitle] = useState("");
   const [meets, setMeets] = useState("");
   const titleError = title.length < 2;
   const meetsError = !validMeet(meets);
 
   useEffect(() => {
-    if (courses?.[code]) {
-      setTitle(courses[code].title);
-      setMeets(courses[code].meets);
+    if (course) {
+      setTitle(course.title);
+      setMeets(course.meets);
     }
-  }, [schedule]);
+  }, [course]);
 
-  if (isLoading) return "Loading...";
-  if (!schedule || !courses[code])
-    return "Data unavailble";
+  if (error || course === null) return "Data unavailble";
+  if (!course) return "Loading...";
   return (
     <form className="edit-container">
       <label className="edit-label">

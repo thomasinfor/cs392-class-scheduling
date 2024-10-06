@@ -3,20 +3,17 @@ import CourseList from './CourseList';
 import TermSelector from './TermSelector';
 import './TermPage.css';
 import { useJsonQuery } from '../utilities/fetch';
+import { useDbData } from '../utilities/firebase';
 
 const TermPage = () => {
-  const {
-    data: schedule,
-    isLoading,
-  } = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
-  const courses = schedule?.courses;
+  const [courses, error] = useDbData("/courses");
   const [term, setTerm] = useState("Fall");
   const [courseSelected, setCourseSelected] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => { setCourseSelected([]); }, [term, courses]);
 
-  if (isLoading) return "Loading...";
-  if (!schedule) return "Data unavailble";
+  if (error || courses === null) return "Data unavailble";
+  if (!courses) return "Loading...";
   return (
     <>
       <div className="btn-container">
