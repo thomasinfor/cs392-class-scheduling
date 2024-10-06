@@ -1,30 +1,45 @@
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Banner from './components/Banner';
 import TermPage from './components/TermPage';
-import { useJsonQuery } from './utilities/fetch';
+import EditPage from './components/EditPage';
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const {
-    data: schedule,
-    isLoading,
-  } = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
-
-  if (isLoading) return "Loading...";
-  if (!schedule) return "Data unavailble";
   return (
     <>
-      <Banner title={schedule.title}/>
-      <TermPage courses={schedule.courses}/>
+      <Banner/>
+      <Outlet/>
     </>
   );
 };
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppContent/>,
+    children: [
+      {
+        path: "/",
+        element: <TermPage/>
+      },
+      {
+        path: "/edit/:code",
+        element: <EditPage/>
+      }
+    ]
+  },
+]);
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppContent/>
+      <RouterProvider router={router}/>
     </QueryClientProvider>
   );
 }

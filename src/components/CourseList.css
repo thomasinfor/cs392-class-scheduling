@@ -15,6 +15,7 @@
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .cl-card.selected {
   background-color: #d9ead3;
@@ -36,4 +37,21 @@
   margin-top: 20px;
   border: 1px solid #E6E6E6;
   transform: scaleX(1.08);
+}
+
+.cl-edit {
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  position: absolute;
+  transform: scaleX(-1);
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cl-edit:hover {
+  background-color: #eeeeee;
 }

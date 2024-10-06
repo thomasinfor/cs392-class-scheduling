@@ -2,13 +2,21 @@ import { useEffect, useState } from 'react';
 import CourseList from './CourseList';
 import TermSelector from './TermSelector';
 import './TermPage.css';
+import { useJsonQuery } from '../utilities/fetch';
 
-const TermPage = ({ courses }) => {
+const TermPage = () => {
+  const {
+    data: schedule,
+    isLoading,
+  } = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
+  const courses = schedule?.courses;
   const [term, setTerm] = useState("Fall");
   const [courseSelected, setCourseSelected] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => { setCourseSelected([]); }, [term, courses]);
 
+  if (isLoading) return "Loading...";
+  if (!schedule) return "Data unavailble";
   return (
     <>
       <div className="btn-container">

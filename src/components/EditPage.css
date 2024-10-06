@@ -1,0 +1,18 @@
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.edit-label {
+  font-size: x-large;
+  margin-bottom: 5px;
+}
+
+.edit-input {
+  width: 500px;
+  max-width: 90%;
+  margin-bottom: 15px;
+}
