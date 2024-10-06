@@ -16,3 +16,13 @@
   max-width: 90%;
   margin-bottom: 15px;
 }
+
+.edit-errormsg {
+  margin-left: 10px;
+  font-size: small;
+  color: red;
+}
+
+.edit-errormsg::before {
+  content: "*";
+}

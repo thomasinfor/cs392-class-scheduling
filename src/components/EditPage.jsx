@@ -2,6 +2,7 @@ import './EditPage.css';
 import { useJsonQuery } from '../utilities/fetch';
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { validMeet } from '../utilities/schedule';
 
 const EditPage = () => {
   const {
@@ -12,6 +13,8 @@ const EditPage = () => {
   const { code } = useParams();
   const [title, setTitle] = useState("");
   const [meets, setMeets] = useState("");
+  const titleError = title.length < 2;
+  const meetsError = !validMeet(meets);
 
   useEffect(() => {
     if (courses?.[code]) {
@@ -25,13 +28,19 @@ const EditPage = () => {
     return "Data unavailble";
   return (
     <form className="edit-container">
-      <label className="edit-label">Title</label>
+      <label className="edit-label">
+        Title
+        {titleError && <span className="edit-errormsg">Must be at least two characters</span>}
+      </label>
       <input
         className="edit-input"
         value={title}
         onChange={evt => setTitle(evt.target.value)}
       />
-      <label className="edit-label">Meets</label>
+      <label className="edit-label">
+        Meets
+        {meetsError && <span className="edit-errormsg">Must contain days and start-end, e.g., MWF 12:00-13:20</span>}
+      </label>
       <input
         className="edit-input"
         value={meets}
