@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref, update, get } from 'firebase/database';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCaj-Y6Zscgs0DVZ7RSSZxY_b3oitQrOv8",
@@ -56,3 +57,31 @@ export const useDbUpdate = (path) => {
 
   return [updateData, result];
 };
+
+const auth = getAuth(firebase);
+const AuthContext = createContext({});
+
+export const AuthContextProvider = ({ children }) => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, [setUser]);
+
+  return (
+    <AuthContext.Provider value={{
+      authed: Boolean(user),
+      email: user?.email,
+      signIn: () => {
+        signInWithPopup(auth, new GoogleAuthProvider())
+      },
+      signOut: () => signOut(auth),
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);

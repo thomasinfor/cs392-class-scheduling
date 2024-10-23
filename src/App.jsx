@@ -6,6 +6,7 @@ import {
 import Banner from './components/Banner';
 import TermPage from './components/TermPage';
 import EditPage from './components/EditPage';
+import { AuthContextProvider } from "./utilities/firebase";
 
 const AppContent = () => {
   return (
@@ -35,7 +36,9 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <RouterProvider router={router}/>
+    <AuthContextProvider>
+      <RouterProvider router={router}/>
+    </AuthContextProvider>
   );
 }
 

@@ -1,8 +1,11 @@
 import './CourseList.css';
 import { conflict } from '../utilities/schedule';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../utilities/firebase';
 
 const CourseList = ({ courses, term, selected, setSelected }) => {
+  const { authed } = useAuth();
+
   return (
     <div className="cl-container">
       {Object.entries(courses).filter(
@@ -26,11 +29,12 @@ const CourseList = ({ courses, term, selected, setSelected }) => {
             <div className="cl-title">{detail.title}</div>
             <hr className="cl-divider"/>
             <div className="cl-time">{detail.meets}</div>
-            <Link to={`/edit/${code}`}>
-              <div className="cl-edit" onClick={evt => {
-                evt.stopPropagation();
-              }}>✏️</div>
-            </Link>
+            {authed &&
+              <Link to={`/edit/${code}`}>
+                <div className="cl-edit" onClick={evt => {
+                  evt.stopPropagation();
+                }}>✏️</div>
+              </Link>}
           </div>
         );
       })}
