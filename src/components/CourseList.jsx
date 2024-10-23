@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../utilities/firebase';
 
 const CourseList = ({ courses, term, selected, setSelected }) => {
-  const { authed } = useAuth();
+  const { admin } = useAuth();
 
   return (
     <div className="cl-container">
@@ -29,7 +29,7 @@ const CourseList = ({ courses, term, selected, setSelected }) => {
             <div className="cl-title">{detail.title}</div>
             <hr className="cl-divider"/>
             <div className="cl-time">{detail.meets}</div>
-            {authed &&
+            {admin &&
               <Link to={`/edit/${code}`}>
                 <div className="cl-edit" onClick={evt => {
                   evt.stopPropagation();

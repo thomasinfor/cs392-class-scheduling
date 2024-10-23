@@ -63,6 +63,7 @@ const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [admin, result] = useDbData(`/admin/${user?.uid}`);
 
   useEffect(() => {
     return onAuthStateChanged(auth, (currentUser) => {
@@ -73,6 +74,7 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{
       authed: Boolean(user),
+      admin: user && Boolean(admin),
       email: user?.email,
       signIn: () => {
         signInWithPopup(auth, new GoogleAuthProvider())
